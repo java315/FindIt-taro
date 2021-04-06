@@ -2,7 +2,7 @@
   <view class="index">
     <view class="index">
     <AtNoticebar marquee>
-      欢迎使用 Taro UI Vue
+      欢迎开始NJU Lost And Found的开发！
     </AtNoticebar>
     <AtButton
       type="primary"
