@@ -1,6 +1,6 @@
 <template>
   <view class="user">
-    <view class="userInfo">
+    <view class="userinfo">
       <view>
         <view class="avatar">
           <open-data
@@ -14,10 +14,10 @@
       </view>
     </view>
 
-    <AtList class="optionBox">
-      <AtListItem class="userOption" title="我的发布" arrow="right" :onClick="jumpToMyPost" />
-      <AtListItem class="userOption" title="关于我们" arrow="right" :onClick="jumpToAbout" />
-      <AtListItem class="userOption" title="设置" arrow="right" :onClick="jumpToSetting" />
+    <AtList class="option-box">
+      <AtListItem class="user-option" title="我的发布" arrow="right" :onClick="jumpToMyPost" />
+      <AtListItem class="user-option" title="关于我们" arrow="right" :onClick="jumpToAbout" />
+      <AtListItem class="user-option" title="设置" arrow="right" :onClick="jumpToSetting" />
     </AtList>
   </view>
 </template>
