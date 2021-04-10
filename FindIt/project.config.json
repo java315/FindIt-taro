@@ -2,7 +2,7 @@
   "miniprogramRoot": "dist/",
   "projectname": "FindIt",
   "description": "NJU Lost And Found!",
-  "appid": "wx0ae4811895c1b93f",
+  "appid": "wxc784643646e17b20",
   "setting": {
     "urlCheck": true,
     "es6": false,
@@ -23,7 +23,7 @@
     "compileHotReLoad": false,
     "useMultiFrameRuntime": true,
     "useApiHook": true,
-    "useApiHostProcess": false,
+    "useApiHostProcess": true,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
