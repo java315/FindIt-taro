@@ -1,46 +1,59 @@
 <template>
   <view class="user">
-    <view class="index">
-    <AtNoticebar marquee>
-      欢迎使用 Taro UI Vue
-    </AtNoticebar>
-    <AtButton
-      type="primary"
-      :on-click="handleClick"
-    >
-      AtButton
-    </AtButton>
-    <AtToast :is-opened="show" :text="msg" :on-close="handleClose"></AtToast>
-  </view>
+    <view class="userInfo">
+      <view>
+        <view class="avatar">
+          <open-data
+            type="userAvatarUrl"
+            default-avatar="../../images/icons/user.png"
+          />
+        </view>
+        <view class="nickname">
+          <open-data type="userNickName" default-text="请先登录" />
+        </view>
+      </view>
+    </view>
+
+    <AtList class="optionBox">
+      <AtListItem class="userOption" title="我的发布" arrow="right" :onClick="jumpToMyPost" />
+      <AtListItem class="userOption" title="关于我们" arrow="right" :onClick="jumpToAbout" />
+      <AtListItem class="userOption" title="设置" arrow="right" :onClick="jumpToSetting" />
+    </AtList>
   </view>
 </template>
 
 <script>
 // 按需引入, 更小的应用体积
-import { AtButton, AtToast, AtNoticebar } from 'taro-ui-vue'
-import "taro-ui-vue/dist/style/components/button.scss"
-import "taro-ui-vue/dist/style/components/toast.scss"
-import "taro-ui-vue/dist/style/components/noticebar.scss"
-import './user.less' 
+import Taro from "@tarojs/taro";
+import { AtList, AtListItem } from "taro-ui-vue";
+import "taro-ui-vue/dist/style/components/list.scss";
+import "taro-ui-vue/dist/style/components/icon.scss";
+import "./user.less";
 export default {
-    components: {
-    AtButton,
-    AtToast,
-    AtNoticebar
+  components: {
+    AtList,
+    AtListItem,
   },
-  data () {
-    return {
-      msg: 'Hello world!',
-      show: false
-    }
+  data() {
+    return {};
   },
   methods: {
-    handleClick () {
-      this.show = true
+    jumpToSetting:function() {
+      Taro.navigateTo({
+        url: "setting",
+      });   
     },
-    handleClose () {
-      this.show = false
+    jumpToMyPost:function() {
+      Taro.navigateTo({
+        url: "setting",
+      });
+    },
+    jumpToAbout:function() {
+      Taro.navigateTo({
+        url: "about",
+      });
     }
   },
-    }
+};
 </script>
+

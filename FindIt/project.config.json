@@ -2,7 +2,7 @@
   "miniprogramRoot": "dist/",
   "projectname": "FindIt",
   "description": "NJU Lost And Found!",
-  "appid": "touristappid",
+  "appid": "wx0ae4811895c1b93f",
   "setting": {
     "urlCheck": true,
     "es6": false,
