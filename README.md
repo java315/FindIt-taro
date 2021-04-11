@@ -34,7 +34,9 @@ taro build --type weapp
 
 
 
+##  项目描述
 
+- ui组件：[taro-ui-vue](https://taro-ui.aotu.io/#/docs/introduction)
 
 ## 开发阶段逐渐丰富的问题清单
 
