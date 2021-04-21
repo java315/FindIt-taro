@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import './app.less'
+import VirtualList from '@tarojs/components/virtual-list'
+// vscode 这里的报错是错的
+Vue.use(VirtualList)
 
 const App = {
   onShow (options) {
@@ -9,5 +12,7 @@ const App = {
     return h('block', this.$slots.default)
   }
 }
+
+
 
 export default App
