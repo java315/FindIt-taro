@@ -55,5 +55,25 @@ taro build --type weapp
 
 
 
+#### 2、为什么使用taro-ui-vue，遇到了什么问题？
 
+毕竟是taro配套的ui方案，感觉上应该靠谱
+
+遇到的问题：
+
+**（1）自定义主题：**官方给出的[解决方案](https://taro-ui.aotu.io/#/docs/customizetheme)是：
+
+>- SCSS变量覆盖
+>- globalClass全局样式类
+>- 配置customStyle属性（仅有部分组件支持，请查看组件文档，不建议使用）
+
+
+
+
+
+
+
+## 使用Taro过程中的一些吐槽
+
+1. 官方的Vue文档提供示例代码有些是直接复制的React代码，有些离谱
 
