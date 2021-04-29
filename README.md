@@ -76,4 +76,5 @@ taro build --type weapp
 ## 使用Taro过程中的一些吐槽
 
 1. 官方的Vue文档提供示例代码有些是直接复制的React代码，有些离谱
+2. taro-ui真的很丑，开发过程不如colorui舒服，更远远没有colorui好看
 
