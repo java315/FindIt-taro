@@ -8,10 +8,10 @@ export default {
     'pages/detail/detail',
   ],
   window: {
-    backgroundTextStyle: 'light',
-    navigationBarBackgroundColor: '#fff',
-    navigationBarTitleText: 'WeChat',
-    navigationBarTextStyle: 'black'
+    backgroundTextStyle: 'dark',
+    navigationBarBackgroundColor: '#6a005f',
+    navigationBarTitleText: 'FindIt in NJU',
+    navigationBarTextStyle: 'white'
   },
   tabBar: {
     color: "#a9b7b7",
