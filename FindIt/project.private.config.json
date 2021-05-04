@@ -23,6 +23,11 @@
           "pathName": "pages/list/list",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/post/post",
+          "pathName": "pages/post/post",
+          "scene": null
         }
       ]
     }

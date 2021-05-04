@@ -30,7 +30,13 @@
       />
     </view>
 
-    <AtDrawer :show="drawerShow" :items="categories" mask  :onClose="onDrawerClose" :onItemClick="onItemClick"/>
+    <AtDrawer
+      :show="drawerShow"
+      :items="categories"
+      mask
+      :onClose="onDrawerClose"
+      :onItemClick="onItemClick"
+    />
   </view>
 </template>
 
@@ -56,12 +62,13 @@ function buildData(offset = 0) {
     .fill(0)
     .map((_, i) => {
       return {
-        thumb:"https://cbu01.alicdn.com/img/ibank/2016/597/960/3694069795_1624996386.jpg",
-        postTime:"2019-09-21 23:23:21",
-        method:"QQ123445",
-        tags:[i%2==0?"lost":"found","手机"],
-        text:"社保卡"
-      }
+        thumb:
+          "https://cbu01.alicdn.com/img/ibank/2016/597/960/3694069795_1624996386.jpg",
+        postTime: "2019-09-21 23:23:21",
+        method: "QQ123445",
+        tags: [i % 2 == 0 ? "lost" : "found", "手机"],
+        text: "社保卡",
+      };
     });
 }
 
@@ -71,7 +78,7 @@ export default {
     AtList,
     AtListItem,
     AtDrawer,
-    AtNavBar
+    AtNavBar,
   },
   data() {
     return {
@@ -81,7 +88,7 @@ export default {
       itemHeight: 150,
       searchTarget: "",
       categories: ["一般", "贵重物品", "校园卡"],
-      currentCategory : "一般",
+      currentCategory: "一般",
       Card,
     };
   },
@@ -97,7 +104,7 @@ export default {
     onActionClick() {
       console.log("click search button");
       //console.log(this.dataLen);
-      console.log(this.items)
+      console.log(this.items);
     },
 
     // methods about list
@@ -128,18 +135,18 @@ export default {
       }
     },
 
-    // 
+    //
     handleClick() {
-      this.drawerShow = true
+      this.drawerShow = true;
     },
 
     // drawer
     onDrawerClose() {
-      this.drawerShow = false
+      this.drawerShow = false;
     },
     onItemClick(index) {
-      this.currentCategory = this.categories[index]
-    }
+      this.currentCategory = this.categories[index];
+    },
   },
 };
 </script>
