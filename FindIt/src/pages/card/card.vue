@@ -21,7 +21,7 @@ import { AtButton, AtToast, AtNoticebar } from 'taro-ui-vue'
 import "taro-ui-vue/dist/style/components/button.scss"
 import "taro-ui-vue/dist/style/components/toast.scss"
 import "taro-ui-vue/dist/style/components/noticebar.scss"
-import './card.less' 
+import './card.less'
 export default {
     components: {
     AtButton,

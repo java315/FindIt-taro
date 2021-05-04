@@ -6,6 +6,7 @@ export default {
     'pages/user/user',
     'pages/card/card',
     'pages/detail/detail',
+    'pages/user/about/about'
   ],
   window: {
     backgroundTextStyle: 'light',

@@ -41,7 +41,7 @@ export default {
     jumpToSetting:function() {
       Taro.navigateTo({
         url: "setting",
-      });   
+      });
     },
     jumpToMyPost:function() {
       Taro.navigateTo({
@@ -50,7 +50,7 @@ export default {
     },
     jumpToAbout:function() {
       Taro.navigateTo({
-        url: "about",
+        url: "/pages/user/about/about",
       });
     }
   },
