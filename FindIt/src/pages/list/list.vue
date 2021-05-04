@@ -20,11 +20,11 @@
     <view class="item-box">
       <virtual-list
         wclass="List"
-        :height="500"
+        :height="600"
         :item-data="items"
         :item-count="dataLen"
         :item-size="itemHeight"
-        :item="Item"
+        :item="Card"
         width="100%"
         @scroll="onScroll"
       />
@@ -49,12 +49,20 @@ import "taro-ui-vue/dist/style/components/icon.scss";
 import "taro-ui-vue/dist/style/components/drawer.scss";
 import "taro-ui-vue/dist/style/components/list.scss";
 import "taro-ui-vue/dist/style/components/nav-bar.scss";
-import Item from "./item.vue";
+import Card from "./card.vue";
 
 function buildData(offset = 0) {
   return Array(20)
     .fill(0)
-    .map((_, i) => i + offset);
+    .map((_, i) => {
+      return {
+        thumb:"https://cbu01.alicdn.com/img/ibank/2016/597/960/3694069795_1624996386.jpg",
+        postTime:"2019-09-21 23:23:21",
+        method:"QQ123445",
+        tags:[i%2==0?"lost":"found","手机"],
+        text:"社保卡"
+      }
+    });
 }
 
 export default {
@@ -70,11 +78,11 @@ export default {
       items: buildData(0),
       loading: false,
       drawerShow: false,
-      itemHeight: 100,
+      itemHeight: 150,
       searchTarget: "",
       categories: ["一般", "贵重物品", "校园卡"],
       currentCategory : "一般",
-      Item,
+      Card,
     };
   },
   computed: {
@@ -88,7 +96,8 @@ export default {
     },
     onActionClick() {
       console.log("click search button");
-      console.log(this.dataLen);
+      //console.log(this.dataLen);
+      console.log(this.items)
     },
 
     // methods about list

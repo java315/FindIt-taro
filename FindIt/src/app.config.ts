@@ -9,10 +9,10 @@ export default {
     'pages/user/about/about'
   ],
   window: {
-    backgroundTextStyle: 'light',
-    navigationBarBackgroundColor: '#fff',
-    navigationBarTitleText: 'WeChat',
-    navigationBarTextStyle: 'black'
+    backgroundTextStyle: 'dark',
+    navigationBarBackgroundColor: '#6a005f',
+    navigationBarTitleText: 'FindIt in NJU',
+    navigationBarTextStyle: 'white'
   },
   tabBar: {
     color: "#a9b7b7",
