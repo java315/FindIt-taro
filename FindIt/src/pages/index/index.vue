@@ -1,32 +1,19 @@
 <template>
   <view class="index">
-    <view class="index">
-    <AtNoticebar marquee>
-      欢迎开始NJU Lost And Found的开发！
-    </AtNoticebar>
-    <AtButton
-      type="primary"
-      :on-click="handleClick"
-    >
-      AtButton
-    </AtButton>
-    <AtToast :is-opened="show" :text="msg" :on-close="handleClose"></AtToast>
-  </view>
+    <view class="panel">
+        <view class="panel__title">Switch 按钮列表</view>
+    </view>
   </view>
 </template>
 
 <script>
 // 按需引入, 更小的应用体积
-import { AtButton, AtToast, AtNoticebar } from 'taro-ui-vue'
+import { AtButton, AtGrid, AtNoticebar } from 'taro-ui-vue'
 import "taro-ui-vue/dist/style/components/button.scss"
-import "taro-ui-vue/dist/style/components/toast.scss"
-import "taro-ui-vue/dist/style/components/noticebar.scss"
 import './index.less' 
 export default {
     components: {
     AtButton,
-    AtToast,
-    AtNoticebar
   },
   data () {
     return {

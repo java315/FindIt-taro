@@ -40,11 +40,11 @@ import {
   AtButton,
 } from "taro-ui-vue";
 import "taro-ui-vue/dist/style/components/textarea.scss";
+import "taro-ui-vue/dist/style/components/icon.scss";
 import "taro-ui-vue/dist/style/components/image-picker.scss";
 import "taro-ui-vue/dist/style/components/nav-bar.scss";
 import "taro-ui-vue/dist/style/components/button.scss";
 import "taro-ui-vue/dist/style/components/radio.scss";
-import "taro-ui-vue/dist/style/components/icon.scss";
 import "taro-ui-vue/dist/style/components/form.scss";
 import "./post.less";
 export default {
@@ -95,5 +95,3 @@ export default {
 };
 </script>
 
-<style>
-</style>
