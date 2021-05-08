@@ -6,30 +6,11 @@
       color="#000"
       :leftText="currentCategory"
       rightFirstIconType="bullet-list"
-      title="列表"
+      title="我的发布"
     >
     </AtNavBar>
 
-    <AtSearchBar
-      showActionButton
-      :value="searchTarget"
-      :onChange="onChange.bind(this, 'value')"
-      :onActionClick="onActionClick"
-    />
-
-    <my-list :itemHeight="itemHeight" :items="items" @scroll="onScroll" />
-    <!-- <view class="item-box">
-      <virtual-list
-        wclass="List"
-        :height="600"
-        :item-data="items"
-        :item-count="dataLen"
-        :item-size="itemHeight"
-        :item="Card"
-        width="100%"
-        @scroll="onScroll"
-      />
-    </view> -->
+    <my-list :itemHeight="itemHeight" :items="items" :height="640" @scroll="onScroll" />
 
     <AtDrawer
       :show="drawerShow"
@@ -45,14 +26,9 @@
 import Taro from "@tarojs/taro";
 import {
   AtNavBar,
-  AtList,
-  AtListItem,
-  AtSearchBar,
   AtDrawer,
 } from "taro-ui-vue";
-import myList from "../../utils/myList/myList"
-import "taro-ui-vue/dist/style/components/search-bar.scss";
-import "taro-ui-vue/dist/style/components/button.scss";
+import myList from "../../../utils/myList/myList";
 import "taro-ui-vue/dist/style/components/icon.scss";
 import "taro-ui-vue/dist/style/components/drawer.scss";
 import "taro-ui-vue/dist/style/components/list.scss";
@@ -75,9 +51,6 @@ function buildData(offset = 0) {
 
 export default {
   components: {
-    AtSearchBar,
-    AtList,
-    AtListItem,
     AtDrawer,
     AtNavBar,
     myList,

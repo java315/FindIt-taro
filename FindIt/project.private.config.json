@@ -27,6 +27,12 @@
         {
           "name": "pages/post/post",
           "pathName": "pages/post/post",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/user/myPost/myPost",
+          "pathName": "pages/user/myPost/myPost",
           "scene": null
         }
       ]
