@@ -17,7 +17,8 @@
       :onActionClick="onActionClick"
     />
 
-    <view class="item-box">
+    <my-list :itemHeight="itemHeight" :items="items" @scroll="onScroll" />
+    <!-- <view class="item-box">
       <virtual-list
         wclass="List"
         :height="600"
@@ -28,7 +29,7 @@
         width="100%"
         @scroll="onScroll"
       />
-    </view>
+    </view> -->
 
     <AtDrawer
       :show="drawerShow"
@@ -49,13 +50,13 @@ import {
   AtSearchBar,
   AtDrawer,
 } from "taro-ui-vue";
+import myList from "../../utils/myList/myList"
 import "taro-ui-vue/dist/style/components/search-bar.scss";
 import "taro-ui-vue/dist/style/components/button.scss";
 import "taro-ui-vue/dist/style/components/icon.scss";
 import "taro-ui-vue/dist/style/components/drawer.scss";
 import "taro-ui-vue/dist/style/components/list.scss";
 import "taro-ui-vue/dist/style/components/nav-bar.scss";
-import Card from "./card.vue";
 
 function buildData(offset = 0) {
   return Array(20)
@@ -79,6 +80,7 @@ export default {
     AtListItem,
     AtDrawer,
     AtNavBar,
+    myList,
   },
   data() {
     return {
@@ -89,7 +91,7 @@ export default {
       searchTarget: "",
       categories: ["一般", "贵重物品", "校园卡"],
       currentCategory: "一般",
-      Card,
+      // Card,
     };
   },
   computed: {
