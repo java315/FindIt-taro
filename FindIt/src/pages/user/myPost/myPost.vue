@@ -29,9 +29,10 @@ import {
   AtDrawer,
 } from "taro-ui-vue";
 import myList from "../../../utils/myList/myList";
+import "taro-ui-vue/dist/style/components/list.scss";
 import "taro-ui-vue/dist/style/components/icon.scss";
 import "taro-ui-vue/dist/style/components/drawer.scss";
-import "taro-ui-vue/dist/style/components/list.scss";
+
 import "taro-ui-vue/dist/style/components/nav-bar.scss";
 
 function buildData(offset = 0) {
