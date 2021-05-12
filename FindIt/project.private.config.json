@@ -31,8 +31,9 @@
           "scene": null
         },
         {
-          "name": "pages/user/myPost/myPost",
-          "pathName": "pages/user/myPost/myPost",
+          "name": "pages/user/about/about",
+          "pathName": "pages/user/about/about",
+          "query": "",
           "scene": null
         }
       ]
