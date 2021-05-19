@@ -1,24 +1,13 @@
 <template>
   <view>
     <AtNavBar
-      :onClickRgIconSt="handleClick"
-      :onClickLeftIcon="handleClick"
       color="#000"
-      :leftText="currentCategory"
-      rightFirstIconType="bullet-list"
       title="我的发布"
     >
     </AtNavBar>
 
     <my-list :itemHeight="itemHeight" :items="items" :height="640" @scroll="onScroll" />
 
-    <AtDrawer
-      :show="drawerShow"
-      :items="categories"
-      mask
-      :onClose="onDrawerClose"
-      :onItemClick="onItemClick"
-    />
   </view>
 </template>
 
@@ -29,12 +18,10 @@ import {
   AtDrawer,
 } from "taro-ui-vue";
 import myList from "../../../utils/myList/myList";
-import "taro-ui-vue/dist/style/components/list.scss";
 import "taro-ui-vue/dist/style/components/icon.scss";
 import "taro-ui-vue/dist/style/components/drawer.scss";
-
 import "taro-ui-vue/dist/style/components/nav-bar.scss";
-
+import "./myPost.less";
 function buildData(offset = 0) {
   return Array(20)
     .fill(0)
