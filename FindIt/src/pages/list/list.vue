@@ -50,7 +50,7 @@ import {
   AtSearchBar,
   AtDrawer,
 } from "taro-ui-vue";
-import myList from "../../utils/myList/myList"
+import myList from "../../components/myList/myList"
 import "taro-ui-vue/dist/style/components/search-bar.scss";
 import "taro-ui-vue/dist/style/components/icon.scss";
 import "taro-ui-vue/dist/style/components/button.scss";
