@@ -18,18 +18,6 @@
     />
 
     <my-list :itemHeight="itemHeight" :items="items" @scroll="onScroll" />
-    <!-- <view class="item-box">
-      <virtual-list
-        wclass="List"
-        :height="600"
-        :item-data="items"
-        :item-count="dataLen"
-        :item-size="itemHeight"
-        :item="Card"
-        width="100%"
-        @scroll="onScroll"
-      />
-    </view> -->
 
     <AtDrawer
       :show="drawerShow"
@@ -65,12 +53,30 @@ function buildData(offset = 0) {
       return {
         thumb:
           "https://cbu01.alicdn.com/img/ibank/2016/597/960/3694069795_1624996386.jpg",
-        postTime: "2019-09-21 23:23:21",
+        createdTime: "2019-09-21 23:23:21",
         method: "QQ123445",
         tags: [i % 2 == 0 ? "lost" : "found", "手机"],
-        text: "社保卡",
+        description: "社保卡",
       };
     });
+}
+
+function requestData(page = 0, callback) {
+  Taro.request({
+    url: 'http://localhost:8089/api/items',
+    method: "GET",
+    data: {
+      page: page
+    },
+    header: {
+      'content-type': 'application/json' 
+    },
+    success: (res) => {
+      console.log(res.data);
+      if (typeof(callback) == 'function')
+        callback(res.data)
+    }
+  });
 }
 
 export default {
@@ -91,8 +97,20 @@ export default {
       searchTarget: "",
       categories: ["一般", "贵重物品", "校园卡"],
       currentCategory: "一般",
-      // Card,
+      page:0,
     };
+  },
+  mounted() {
+    requestData(this.page,(data) => {
+      let i = 0
+      data.forEach(element => {
+        element.thumb = "https://cbu01.alicdn.com/img/ibank/2016/597/960/3694069795_1624996386.jpg"
+        element.tags = [i++ % 2 == 0 ? "lost" : "found", "手机"]
+      }); 
+      
+      this.items = data
+      console.log(data)
+    })
   },
   computed: {
     dataLen() {

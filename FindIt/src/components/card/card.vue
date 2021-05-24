@@ -1,6 +1,6 @@
 <template>
     <view :style='css' class="item-card">
-        <At-Card :title="data[index].text" :icon="{ value: 'tags', color: '#77a1fd' }">
+        <At-Card :title="data[index].description" :icon="{ value: 'tags', color: '#77a1fd' }">
         <view class="item-content at-row" >
             <view class="item-thumb at-col at-col-4">
                 <image mode='aspectFill' style="height:90px;width:100px" :src="data[index].thumb"></image>
@@ -24,7 +24,7 @@
                 <view class="split"></view>
                 <AtTag class="method-tag bg-green light" size="small" >{{ data[index].method }}</AtTag>
                 <view class="split"></view>
-                <AtTag class="time-tag bg-purple light" size="small" >{{ data[index].postTime }}</AtTag>
+                <AtTag class="time-tag bg-purple light" size="small" >{{ data[index].createdTime }}</AtTag>
             </view>
         </view>
         </At-Card>
