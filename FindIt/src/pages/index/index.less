@@ -36,15 +36,20 @@
         
       }
 
-      
-
-      
-  
-      .pannel__content {
+      .panel__content {
         padding: 0 20px;
-  
-        .pannel__content.no-padding {
-          padding: 0;
+        // taro vue ui noticebar在这里有一个bug导致换行问题
+        .at-noticebar__more-icon{
+          display: none;
         }
       }
+
+      .no__padding {
+        padding: 0 0;
+      }
     }
+
+.data-value {
+  margin-left: 20px;
+}
+
