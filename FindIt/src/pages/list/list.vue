@@ -61,7 +61,6 @@ function buildData(offset = 0) {
     });
 }
 
-function requestData(page = 0, callback) {
   Taro.request({
     url: 'http://localhost:8089/api/items',
     method: "GET",
