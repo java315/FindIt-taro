@@ -2,11 +2,11 @@
   <view>
     <AtMessage/>
     <AtNavBar
-      :onClickRgIconSt="handleClick"
+      :onClickRgIconSt="jumpToPost"
       :onClickLeftIcon="handleClick"
       color="#000"
       :leftText="currentCategory"
-      rightFirstIconType="bullet-list"
+      rightFirstIconType="add-circle"
       title="列表"
     >
     </AtNavBar>
@@ -167,6 +167,11 @@ export default {
       this.drawerShow = true;
     },
 
+    jumpToPost() {
+      Taro.navigateTo({
+         url: '/pages/post/post'
+      });
+    },  
     // drawer
     onDrawerClose() {
       this.drawerShow = false;
@@ -174,6 +179,7 @@ export default {
     onItemClick(index) {
       this.currentCategory = this.categories[index];
     },
+
     
 
   },

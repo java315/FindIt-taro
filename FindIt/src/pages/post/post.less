@@ -1,22 +1,93 @@
-.buttonView{
-    text-align: right;
+
+@import "../../styles/color.less";
+  .panel {
+      margin: 32px 0 56px;
+  
+      .panel__title {
+        position: relative;
+        margin-bottom: 50px;
+        padding-left: 50px;
+        color: #6a6a77;
+        font-size: 32px;
+        font-weight: bold;
+        line-height: 1.5;
+        &:before {
+            content: "";
+            display: inline-block;
+            position: absolute;
+            left: 24px;
+            top: 50%;
+            margin-top: -20px;
+            width: 2PX;
+            height: 40px;
+            background-color: #6190e8;
+            box-shadow: 0 7px 12px 0 rgba(97, 144, 232, 0.2);
+            border-radius: 1PX;
+          }
+        
+      }
+
+      .panel__content {
+        padding: 0 20px;
+        // taro vue ui noticebar在这里有一个bug导致换行问题
+        .at-noticebar__more-icon{
+          display: none;
+        }
+      }
+
+      .no__padding {
+        padding: 0 0;
+      }
+    }
+
+.data-value {
+  margin-left: 20px;
 }
 
-// #cancelButton{
-//     align-self: left;
-//     margin-left: 2%;
-// }
 
-#submitButton{
-    // float: right;
-    margin-right: 2%;
-}
 
-#textArea{
+.textArea{
     margin:0 auto;
     width: 96%;
 }
 
 .spilt{
     height: 10px;
+}
+
+.selector-item {
+    position:relative;
+    display: flex;
+    justify-content:space-between;
+    padding: 24px;
+
+    &:before,
+    &:after{
+        content: '';
+        position: absolute;
+        top: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transform: scaleY(0.5);
+        border-bottom: 1PX solid #d6e4ef;
+        transform-origin: center;
+        box-sizing: border-box;
+        pointer-events: none;
+    }
+    &:before {
+        top: 0;
+        bottom: auto;
+      }
+
+    .selector-item__label,
+    .selector-item__value{
+        color:#333;
+        font-size: 32px;
+        line-height: 1.5;
+    }
+
+    .selector-item__value{
+        color:#999;
+    }
 }

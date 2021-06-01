@@ -32,12 +32,12 @@ export default {
       iconPath:"images/icons/list.png",
       selectedIconPath:"images/icons/list.png"
     },
-    {
-      pagePath: "pages/post/post",
-      text: "发布",
-      iconPath:"images/icons/upload.png",
-      selectedIconPath:"images/icons/upload.png"
-    },
+    // {
+    //   pagePath: "pages/post/post",
+    //   text: "发布",
+    //   iconPath:"images/icons/upload.png",
+    //   selectedIconPath:"images/icons/upload.png"
+    // },
     {
       pagePath: "pages/user/user",
       text: "我的",
