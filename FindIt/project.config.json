@@ -2,7 +2,7 @@
   "miniprogramRoot": "dist/",
   "projectname": "FindIt",
   "description": "NJU Lost And Found!",
-  "appid": "wxc784643646e17b20",
+  "appid": "wx73b01eacc0c98178",
   "setting": {
     "urlCheck": false,
     "es6": false,
@@ -12,7 +12,7 @@
     "minified": false,
     "newFeature": true,
     "coverView": true,
-    "nodeModules": false,
+    "nodeModules": true,
     "autoAudits": false,
     "showShadowRootInWxmlPanel": false,
     "scopeDataCheck": false,
@@ -41,5 +41,11 @@
   "compileType": "miniprogram",
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
+  "qqappid": "1109607881",
+  "scripts": {
+    "beforeCompile": "",
+    "beforePreview": "",
+    "beforeUpload": ""
+  },
   "condition": {}
 }

@@ -1,5 +1,6 @@
 <template>
   <view class="user">
+    <AtMessage/>
     <view class="userinfo">
       <view>
         <view class="avatar">
@@ -25,7 +26,7 @@
 <script>
 // 按需引入, 更小的应用体积
 import Taro from "@tarojs/taro";
-import { AtList, AtListItem } from "taro-ui-vue";
+import { AtList, AtListItem, AtMessage } from "taro-ui-vue";
 import "taro-ui-vue/dist/style/components/list.scss";
 import "taro-ui-vue/dist/style/components/icon.scss";
 import "./user.less";
@@ -33,15 +34,20 @@ export default {
   components: {
     AtList,
     AtListItem,
+    AtMessage
   },
   data() {
     return {};
   },
   methods: {
     jumpToSetting:function() {
-      Taro.navigateTo({
-        url: "setting",
-      });
+      Taro.atMessage({
+        message:"还没做orz",
+        type:'warning'
+      })
+      // Taro.navigateTo({
+      //   url: "setting",
+      // });
     },
     jumpToMyPost:function() {
       Taro.navigateTo({
