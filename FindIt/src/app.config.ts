@@ -7,7 +7,8 @@ export default {
     'pages/card/card',
     'pages/detail/detail',
     'pages/user/about/about',
-    'pages/user/myPost/myPost'
+    'pages/user/myPost/myPost',
+    'pages/auth/login/login'
   ],
   window: {
     backgroundTextStyle: 'dark',

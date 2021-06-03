@@ -35,6 +35,12 @@
           "pathName": "pages/user/about/about",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "login",
+          "pathName": "pages/auth/login/login",
+          "query": "",
+          "scene": null
         }
       ]
     }
