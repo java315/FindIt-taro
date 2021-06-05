@@ -1,62 +1,94 @@
 import request from "./request";
 import Taro from '@tarojs/taro'
+function guard(v) {
+    if (v instanceof Object) {
+        return v[1]
+    }
+    else {
+        return 0
+    }
+        
+}
 const njupass = {
     getCookie : function() {
-        var result = await Taro.request({
-            url: 'https://authserver.nju.edu.cn/authserver/login',
-            method: 'GET',
-            header:{
-                'Content-Type': 'application/x-www-form-urlencoded',
+        return new Promise(async function(resolve,reject) {
+            var result = await Taro.request({
+                url: 'https://authserver.nju.edu.cn/authserver/login',
+                method: 'GET',
+                header:{
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                }
+            });
+            console.log(result)
+            if (result.statusCode != 200) {
+                reject()
+                return
             }
-        });
-        // console.log(result)
-        if (result.statusCode != 200) {
             
-        }
-        
-        var code = result.data
-        var lt = code.match(/<input type="hidden" name="lt" value="(.*)"\/>/g)[0]
-        var dllt = code.match(/<input type="hidden" name="dllt" value="(.*)"\/>/g)[0]
-        var execution = code.match(/<input type="hidden" name="execution" value="(.*)"\/>/g)[0]
-        var _eventId = code.match(/<input type="hidden" name="_eventId" value="(.*)"\/>/g)[0]
-        var rmShown = code.match(/<input type="hidden" name="rmShown" value="(.*)"/g)[0]
-        var pwdDefaultEncryptSalt = code.match(/<input type="hidden" id="pwdDefaultEncryptSalt" value="(.*)"/g)[0]
-        Taro.setStorageSync('nju_cookie', result.header['Set-Cookie'])
-        Taro.setStorageSync('njupass_data',{
-            lt,
-            dllt,
-            execution,
-            _eventId,
-            rmShown,
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit 537.36 (KHTML, like Gecko) Chrome"
+            var code = result.data
+            var lt = guard(code.match(/<input type="hidden" name="lt" value="(.*)"\/>/))
+            var dllt = guard(code.match(/<input type="hidden" name="dllt" value="(.*)"\/>/))
+            var execution = guard(code.match(/<input type="hidden" name="execution" value="(.*)"\/>/))
+            var _eventId = guard(code.match(/<input type="hidden" name="_eventId" value="(.*)"\/>/))
+            var rmShown = guard(code.match(/<input type="hidden" name="rmShown" value="(.*)"/))
+            var pwdDefaultEncryptSalt = guard(code.match(/<input type="hidden" id="pwdDefaultEncryptSalt" value="(.*)"/))
+            Taro.setStorageSync('nju_cookie', result.header['Set-Cookie'])
+            Taro.setStorageSync('njupass_data',{
+                lt,
+                dllt,
+                execution,
+                _eventId,
+                rmShown,
+                pwdDefaultEncryptSalt,
+                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit 537.36 (KHTML, like Gecko) Chrome"
+            })
+            resolve()
+
         })
+        
     },
     getCaptchaCode : function() {
-        var cookie = Taro.getStorageSync('nju_cookie')
-        var res = await Taro.request({
-            url: 'https://authserver.nju.edu.cn/authserver/captcha.html', 
-            method: 'GET',
-            header: {
-                'Cookie':cookie
-            },       
-        });
-        // TODO
+        return new Promise(async function (resolve,reject) {
+            var cookie = Taro.getStorageSync('nju_cookie')
+            var res = await Taro.request({
+                url: 'https://authserver.nju.edu.cn/authserver/captcha.html', 
+                method: 'GET',
+                header: {
+                    'Cookie':cookie
+                },       
+            });
+            if (res.statusCode == 200) {
+                resolve(res)
+            }
+            else {
+                reject(res)
+            }
+        })
+        
+      
     },
     needCaptcha : function(stuId) {
-        var cookie = Taro.getStorageSync('nju_cookie')
-        var r = await Taro.request({
-            url: 'https://authserver.nju.edu.cn/authserver/needCaptcha.html', 
-            data: {
-                username: stuId
-            },
-            header: {
-                'Cookie':cookie
-            },
-        });
-        if (r.text.includes('true'))
-            return true
-        else 
-            return false
+        return new Promise(async function (resolve,reject) {
+            var cookie = Taro.getStorageSync('nju_cookie')
+            var r = await Taro.request({
+                url: 'https://authserver.nju.edu.cn/authserver/needCaptcha.html', 
+                data: {
+                    username: stuId
+                },
+                header: {
+                    'Cookie':cookie
+                },
+            });
+            // console.log(r)
+            if (r.statusCode == 200) {
+                resolve(r.data)
+            }          
+            else {
+                reject(r)
+            }
+                
+        })
+        
     },
     checkIdentity : function({stuId,password,capychaResponse=""}) {
         return new Promise(async function (resolve,reject) {
