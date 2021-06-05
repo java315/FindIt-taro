@@ -9,17 +9,18 @@
             </view>
             <view class="bd">
                 <form class="login-form">
-                    <view class="'input-group">
+                    
+                    <view class="input-group">
                         <text class="input-label">帐号</text>
-                        <input cursor-spacing="30" id="userid" maxlength="9" placeholder="请输入您的学号" bindinput="useridInput" bindfocus="inputFocus" bindblur="inputBlur" />
+                        <input cursor-spacing="30" id="userid" maxlength="9" placeholder="请输入您的学号" @input="stuIdInput" @blur="stuIdBlur"/>
                     </view>
                     <view class="input-group">
                         <text class="input-label">密码</text>
-                        <input password="true" cursor-spacing="30" id="passwd" placeholder="请输入对应密码" bindinput="passwdInput" bindfocus="inputFocus" bindblur="inputBlur" />
+                        <input password="true" cursor-spacing="30" id="passwd" placeholder="请输入对应密码" @input="passwdInput"  />
                     </view>
-                    <view class="input-group">
+                    <view class="input-group" v-if="needCaptcha">
                         <image class="input-lable-authcd" :src="captcha" mode="aspectFit"></image>
-                        <input cursor-spacing="30" id="authcd" maxlength="4" placeholder="输入图中验证码" bindinput="authcdInput" bindfocus="inputFocus" bindblur="inputBlur" />
+                        <input cursor-spacing="30" id="authcd" maxlength="4" placeholder="输入图中验证码" @input="authcdInput"  />
                     </view>
                     <view class="login-help" >
                         <AtButton size="small" :onClick="showHelp" class="no-border">
@@ -29,6 +30,10 @@
                         
                     </view>
                 </form>
+                <!-- <AtForm>
+                    <AtInput name="userid" title="账号" placehoder="请输入您的学号" :value="stuId" :onChange="stuIdInput"/>
+                    <AtInput name="passwd" title="账号" placehoder="请输入您的学号" :value="stuId" :onChange="stuIdInput"/>
+                </AtForm> -->
                 <view class="confirm-btn" @tap="handleConfirm">
                     <text>登录</text>
                 </view>
@@ -63,27 +68,51 @@ import Taro from "@tarojs/taro";
 import request from '../../../utils/request';
 import {getToken} from '../../../utils/request';
 import * as api from '../../../configs/api';
-import {AtButton} from "taro-ui-vue";
+import {AtButton,AtInput,AtForm } from "taro-ui-vue";
 import "taro-ui-vue/dist/style/components/button.scss"
-// import {CheckNJUIdentity} from "../../../utils/api";
+import njupass from "../../../utils/njupass";
+import "taro-ui-vue/dist/style/components/input.scss";
+import "taro-ui-vue/dist/style/components/icon.scss";
 import "./login.less";
 export default {
-    async mounted() {
-        let data = {}
-        // const result = await CheckNJUIdentity(data)
-        // this.data = result
-        // console.log(result)
+    onReady() {
+        Taro.onAccelerometerChange(function (res) {
+            var angle = -(res.x * 30).toFixed(1);
+            if (angle > 14) {
+                angle = 14;
+            } else if (angle < -14) {
+                angle = -14;
+            }
+            if (_this.data.angle !== angle) {
+                this.angle = angle
+            }
+        });
+    },
+    mounted() {
+        njupass.getCookie().catch(() => {
+            Taro.showToast({
+                title: '网络异常',
+                icon:"loading",
+                duration: 1000
+            });
+        })
+
+        
     },
     data() {
         return {
             data:[],
             captcha:"",
+            needCaptcha:false,
             angle: 0,
-            help_status:false
+            help_status:false,
+            stuId:'',
+            passwd:'',
+            authcd:'',
         } 
     },
     components: {
-        AtButton
+        AtButton,AtInput,AtForm
     },
     methods:{
         showHelp() {
@@ -95,8 +124,37 @@ export default {
         },
         handleConfirm() {
             // Taro.setStorageSync()
-            getToken();
+            // getToken();
             console.log("hello")
+            console.log(this.stuId)
+            console.log(this.passwd)
+            console.log(this.authcd)
+            njupass.checkIdentity({
+                stuId:this.stuId,
+                password:this.passwd,
+                capychaResponse:this.authcd
+            }).then((res) => {
+                console.log("成功")
+            })
+        },
+        stuIdInput(e) {
+            this.stuId = e.detail.value
+        },
+        passwdInput(e) {
+            this.passwd = e.detail.value
+        },
+        authcdInput(e) {
+            this.authcd = e.detail.value
+        },
+        stuIdBlur(e) {
+            var stuId = e.detail.value
+            njupass.needCaptcha(stuId).then((res) => {
+                this.needCaptcha = res
+                if (res) {
+                    // njupass.getCaptchaCode()
+                }
+            })
+
         }
     }
 }
