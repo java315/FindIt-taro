@@ -61,17 +61,18 @@
 <script>
 import Taro from "@tarojs/taro";
 import request from '../../../utils/request';
+import {getToken} from '../../../utils/request';
 import * as api from '../../../configs/api';
 import {AtButton} from "taro-ui-vue";
 import "taro-ui-vue/dist/style/components/button.scss"
-import {CheckNJUIdentity} from "../../../utils/api";
+// import {CheckNJUIdentity} from "../../../utils/api";
 import "./login.less";
 export default {
     async mounted() {
         let data = {}
-        const result = await CheckNJUIdentity(data)
-        this.data = result
-        console.log(result)
+        // const result = await CheckNJUIdentity(data)
+        // this.data = result
+        // console.log(result)
     },
     data() {
         return {
@@ -93,6 +94,8 @@ export default {
             this.help_status = false
         },
         handleConfirm() {
+            // Taro.setStorageSync()
+            getToken();
             console.log("hello")
         }
     }
