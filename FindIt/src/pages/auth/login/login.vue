@@ -65,14 +65,14 @@
 
 <script>
 import Taro from "@tarojs/taro";
-import request from '../../../utils/request';
-import {getToken} from '../../../utils/request';
-import * as api from '../../../configs/api';
-import {AtButton,AtInput,AtForm } from "taro-ui-vue";
-import "taro-ui-vue/dist/style/components/button.scss"
 import njupass from "../../../utils/njupass";
-import "taro-ui-vue/dist/style/components/input.scss";
+import {AtButton,AtInput,AtForm } from "taro-ui-vue";
 import "taro-ui-vue/dist/style/components/icon.scss";
+import "taro-ui-vue/dist/style/components/button.scss"
+
+import "taro-ui-vue/dist/style/components/input.scss";
+
+import {getGlobalData,setGlobalData} from "../../../utils/global";
 import "./login.less";
 export default {
     onReady() {
@@ -123,18 +123,47 @@ export default {
             this.help_status = false
         },
         handleConfirm() {
-            // Taro.setStorageSync()
-            // getToken();
-            console.log("hello")
-            console.log(this.stuId)
-            console.log(this.passwd)
-            console.log(this.authcd)
+            Taro.showLoading({
+                title: '认证中'
+            });
             njupass.checkIdentity({
                 stuId:this.stuId,
                 password:this.passwd,
-                capychaResponse:this.authcd
-            }).then((res) => {
+                captchaResponse:this.authcd
+            })
+            .then((res) => {
                 console.log("成功")
+                Taro.hideLoading();
+                Taro.showToast({
+                    title: '认证成功',
+                    duration: 500
+                });
+                Taro.setStorageSync("stuId",this.stuId)
+                setGlobalData("state","checked")
+                Taro.switchTab({
+                     url: '/pages/user/user'
+                });
+            }).catch((err) => {
+                console.log(err)
+                Taro.hideLoading();
+                njupass.getCookie().then(() => {
+                    return njupass.needCaptcha(this.stuId)
+                })
+                .then((res) => {
+                    this.needCaptcha = res
+                    if (res) {
+                        return njupass.getCaptchaCode().then((img) => {
+                            this.captcha = img
+                        })
+                    }
+                    
+                })
+                
+                Taro.showToast({
+                    title: '密码或账号错误',
+                    icon:"error",
+                    duration: 1000
+                });
             })
         },
         stuIdInput(e) {
@@ -147,11 +176,14 @@ export default {
             this.authcd = e.detail.value
         },
         stuIdBlur(e) {
+            console.log(e)
             var stuId = e.detail.value
             njupass.needCaptcha(stuId).then((res) => {
                 this.needCaptcha = res
                 if (res) {
-                    // njupass.getCaptchaCode()
+                    njupass.getCaptchaCode().then((img) => {
+                        this.captcha = img
+                    })
                 }
             })
 

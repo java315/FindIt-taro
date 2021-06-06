@@ -1,5 +1,5 @@
 const globalData = {
-    BaseUrl : "http://localhost:8089/api/"
+    state:"unchecked"
 }
 
 export function setGlobalData (key, val) {
