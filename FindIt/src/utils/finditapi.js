@@ -63,7 +63,7 @@ const findItApi = {
             data:{
                 page
             },
-            oauth2: true
+            oauth2: false
         })
     },
     recentPostList: function() { // 获取最近的三条公告
