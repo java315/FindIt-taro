@@ -69,6 +69,21 @@ taro build --type weapp
 
 
 
+#### 3、小程序的request无法截取到302重定向的包
+
+
+
+#### 4、taro vue的一些事件方法与文档描述有出入
+
+例如view的点击事件在文档里没有，一般在Taro里点击事件是通过绑定onClick实现，而Taro react可以这么做，但是在Taro vue里这么绑定不会触发点击处理函数，而@tap却可以触发
+
+```vue
+<view :onClick="handleClick">点击不触发</view>
+<view @tap="handleClick">点击触发</view>
+```
+
+还有input的input、blur、focus同理，文档里说需要分别绑定onInput、onBlur、onFocus，然而实际上这些都无效，而通过@input、@blur、@focus却可以
+
 
 
 
