@@ -60,9 +60,14 @@ export default {
     };
   },
   mounted() {
-    let state = getGlobalData("state")
-    if (state == "checked") {
-      this.state = Taro.getStorageSync('stuId')
+    let stuId = Taro.getStorageSync('stuId')
+    if (stuId == null) {
+      this.state = '未认证'
+      this.isNJUer = false
+    }
+    else {
+      this.state = stuId
+      this.isNJUer = true
     }
   },
   methods: {
@@ -86,9 +91,12 @@ export default {
       });
     },
     jumpToLogin() {
-      Taro.navigateTo({
-        url: "/pages/auth/login/login",
-      });
+      if (this.isNJUer == false) {
+        Taro.navigateTo({
+          url: "/pages/auth/login/login",
+        });
+      }
+      
     }
   },
 };
