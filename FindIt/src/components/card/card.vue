@@ -39,8 +39,8 @@
 import Taro from "@tarojs/taro";
 import { AtTag,AtCard,AtSwipeAction } from 'taro-ui-vue';
 import "taro-ui-vue/dist/style/components/message.scss";
-import "taro-ui-vue/dist/style/components/tag.scss";
 import "taro-ui-vue/dist/style/components/flex.scss";
+import "taro-ui-vue/dist/style/components/tag.scss";
 import "taro-ui-vue/dist/style/components/card.scss";
 import "taro-ui-vue/dist/style/components/swipe-action.scss";
 import "./card.less";
