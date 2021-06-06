@@ -18,45 +18,67 @@ const findItApi = {
             oauth2: true
         })
     },
-    itemDetail:function() {
-
+    itemDetail:function(id) {
+        return request({
+            url: api.ITEM_GET + id,
+            method:'GET',
+            header:{
+                'content-type': 'application/json' 
+            },
+            oauth2: true
+        })
     },
     itemCreate:function() {
-
+        
     },
     deleteItem:function() {
-
+        return request({
+            url: api.ITEM_DELETE + id,
+            method:'DELETE',
+            oauth2: true
+        })
     },
     tagList: function() {
-
+        return request({
+            url: api.TAG_LIST_GET,
+            method:'GET',
+            header:{
+                'content-type': 'application/json' 
+            },
+            oauth2: true
+        })
     },
     todayItemList: function() {
 
     },
 
     // Post Api
-    postList: function() {
+    postList: function(page = 0) {
+        return request({
+            url: api.POST_LIST_GET,
+            method:'GET',
+            header:{
+                'content-type': 'application/json' 
+            },
+            data:{
+                page
+            },
+            oauth2: true
+        })
+    },
+    recentPostList: function() { // 获取最近的三条公告
 
     },
 
     // Data Api
     findItData: function() {
-        Taro.request({
-            url: 'https://www.example.com/request', //仅为示例，并非真实接口地址。
-            data: {
-                text: 'Taro.request'
-            },
-            header: {
-                'custom-header': 'hello' //自定义请求头信息
-            },
-            success: (res) => {
-                console.log(res.data);
-                this.text = 'request success';
-            }
-        });
+        
     },
 
-
+    // Image Api
+    uploadImage: function() {
+        // 这里要调用Taro.uploadFile()
+    }
 
 }
 
