@@ -8,7 +8,8 @@ export default {
     'pages/detail/detail',
     'pages/user/about/about',
     'pages/user/myPost/myPost',
-    'pages/auth/login/login'
+    'pages/user/login/login',
+    'pages/apiTest/apiTest'
   ],
   window: {
     backgroundTextStyle: 'dark',
