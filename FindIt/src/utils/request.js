@@ -1,9 +1,10 @@
 import Taro from "@tarojs/taro";
 import * as api from "../configs/api";
 import { appApiPrefix, h5ApiPrefix } from "../configs/config";
-
+var request_count = 0
 const weappRequest = {
   apiPrefix: appApiPrefix,
+  
   request: function({
     url,
     method = "GET",
@@ -13,10 +14,8 @@ const weappRequest = {
   }) {
     return new Promise(async function(resolve, reject) {
       const stuId = Taro.getStorageSync("stuId");
-      if (!stuId) {
-        // 登录
+      if (!stuId) { // 未登录
         await weappRequest.signin();
-        data.stuId = Taro.getStorageSync("stuId");
         const result = await weappRequest.request({
           url: apiPrefix+url,
           method,
@@ -30,7 +29,7 @@ const weappRequest = {
       if (oauth2) {
         const token = Taro.getStorageSync("token");
         // header["Authorization"] = `Bearer ${token}`;
-        console.log(token)
+        // console.log(token)
         header["Authorization"] = token
       }
 
@@ -45,16 +44,19 @@ const weappRequest = {
       await Taro.hideLoading();
 
       if (result.statusCode === 401) {
-        // 未认证，重新请求 token
+        // 未认证，重新请求 token1
         await weappRequest.getToken()
         const result = await weappRequest.request({ url, method, data, header, oauth2 })
         resolve(result)
-      } else if (result.statusCode == 500) {
+      } else if (result.statusCode == 500 && request_count++ <= 3) {
         await weappRequest.getToken()
-        reject()
+        const result = await weappRequest.request({ url, method, data, header, oauth2 })
+        resolve(result)
       } else if (result.statusCode >= 200 && result.statusCode < 400) {
+        request_count = 0
         resolve(result.data);
       } else {
+        request_count = 0
         reject({
           code: "9999",
           message: "服务端出错",

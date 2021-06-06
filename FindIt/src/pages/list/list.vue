@@ -41,6 +41,7 @@ import {
   AtMessage
 } from "taro-ui-vue";
 import {setGlobalData,getGlobalData} from '../../utils/global'
+import findItApi from "../../utils/finditapi"
 import myList from "../../components/myList/myList"
 import "taro-ui-vue/dist/style/components/message.scss";
 import "taro-ui-vue/dist/style/components/search-bar.scss";
@@ -64,23 +65,7 @@ function buildData(offset = 0) {
     });
 }
 
-function requestData(base, page = 0, callback) {
-  Taro.request({
-    url: base + 'items',
-    method: "GET",
-    data: {
-      page: page
-    },
-    header: {
-      'content-type': 'application/json' 
-    },
-    success: (res) => {
-      console.log(res.data);
-      if (typeof(callback) == 'function')
-        callback(res.data)
-    }
-  });
-}
+
 
 export default {
   components: {
@@ -104,7 +89,7 @@ export default {
     };
   },
   mounted() {
-    let base = getGlobalData("BaseUrl")
+    
     //console.log(base)
     // requestData(base,this.page,(data) => {
     //   let i = 0
@@ -116,7 +101,13 @@ export default {
     //   this.items = data
     //   console.log(data)
     // })
-
+    findItApi.itemList(this.page).then((data) => {
+      data.forEach(e => {
+        e.thumb = e.photos[0] ? e.photos[0].url : ''
+        e.tags = e.tags.sort((a,b) => a.priority - b.priority).map(e => e.name)
+      })
+      this.items = data
+    })
     
   },
   computed: {
@@ -136,16 +127,20 @@ export default {
 
     // methods about list
     listReachBottom() {
-      Taro.showLoading({
-        title: "加载中",
-      });
       this.loading = true;
-      setTimeout(() => {
-        let data = this.items;
-        this.items = data.concat(buildData(data.length));
-        this.loading = false;
-        Taro.hideLoading();
-      }, 1000);
+      let page = this.page + 1
+      findItApi.itemList(page).then((data) => {
+        if (data.length > 0) {
+          this.page = page
+        }
+        data.forEach(e => {
+          e.thumb = e.photos[0] ? e.photos[0].url : ''
+          e.tags = e.tags.sort((a,b) => a.priority - b.priority).map(e => e.name)
+        })
+        let items = this.items 
+        this.items = items.concat(data)
+        this.loading = false
+      })
     },
 
     onScroll({ scrollDirection, scrollOffset }) {
