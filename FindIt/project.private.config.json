@@ -41,6 +41,12 @@
           "pathName": "pages/auth/login/login",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/apiTest/apiTest",
+          "pathName": "pages/apiTest/apiTest",
+          "query": "",
+          "scene": null
         }
       ]
     }
