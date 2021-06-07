@@ -9,6 +9,7 @@ const App = {
   onLaunch() {
     console.log("on launch")
     Taro.addInterceptor(Taro.interceptors.logInterceptor)
+    // Taro.addInterceptor(Taro.interceptors.timeoutInterceptor)
   },
   onShow (options) {
   },

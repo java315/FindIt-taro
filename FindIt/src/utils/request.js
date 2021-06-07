@@ -44,7 +44,7 @@ const weappRequest = {
       await Taro.hideLoading();
 
       if (result.statusCode === 401) {
-        // 未认证，重新请求 token1
+        // 未认证，重新请求 token
         await weappRequest.getToken()
         const result = await weappRequest.request({ url, method, data, header, oauth2 })
         resolve(result)

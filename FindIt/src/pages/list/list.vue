@@ -89,18 +89,6 @@ export default {
     };
   },
   mounted() {
-    
-    //console.log(base)
-    // requestData(base,this.page,(data) => {
-    //   let i = 0
-    //   data.forEach(element => {
-    //     element.thumb = "https://cbu01.alicdn.com/img/ibank/2016/597/960/3694069795_1624996386.jpg"
-    //     element.tags = [i++ % 2 == 0 ? "lost" : "found", "手机"]
-    //   }); 
-      
-    //   this.items = data
-    //   console.log(data)
-    // })
     findItApi.itemList(this.page).then((data) => {
       data.forEach(e => {
         e.thumb = e.photos[0] ? e.photos[0].url : ''

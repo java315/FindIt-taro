@@ -41,8 +41,8 @@
 import Taro from "@tarojs/taro";
 import { AtTag,AtIcon,AtList, AtListItem, AtMessage } from "taro-ui-vue";
 import "taro-ui-vue/dist/style/components/list.scss";
-import "taro-ui-vue/dist/style/components/icon.scss";
 import "taro-ui-vue/dist/style/components/tag.scss";
+import "taro-ui-vue/dist/style/components/icon.scss";
 import {getGlobalData,setGlobalData} from "../../utils/global";
 import "./user.less";
 export default {

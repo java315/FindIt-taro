@@ -67,7 +67,7 @@ const findItApi = {
         })
     },
     recentPostList: function() { // 获取最近的三条公告
-
+        return this.postList(0)
     },
 
     // Data Api

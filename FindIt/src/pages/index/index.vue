@@ -34,12 +34,16 @@
     <view class="panel">
         <view class="panel__title">公告区</view>
         <view class="panel__content">
-          <view class="broadcast">
-          <AtNoticebar v-for="i in 3" :key="i" icon='volume-plus' showMore single :onGotoMore="onGotoMore">
-            [公告]
-            这是 NoticeBar 通告栏，这是 NoticeBar 通告栏，这是 NoticeBar 通告栏
+          <view class="broadcast" v-if="posts.length > 0">
+          <AtNoticebar v-for="post in posts" :key="post.id" icon='volume-plus' showMore single :onGotoMore="onGotoMore.bind(this,post)">
+            {{ post.title }}
           </AtNoticebar>
           </view>
+          <view class="broadcast" v-else>
+          <AtNoticebar icon='volume-plus' single>
+            [公告]最近没啥公告
+          </AtNoticebar>
+          </view>  
         </view>
     </view>
   </view>
@@ -49,37 +53,40 @@
 // 按需引入, 更小的应用体积
 import { AtButton, AtGrid, AtTag, AtNoticebar } from 'taro-ui-vue'
 import Taro from "@tarojs/taro";
+import findItApi from "../../utils/finditapi"
 
 import "taro-ui-vue/dist/style/components/grid.scss";
 import "taro-ui-vue/dist/style/components/flex.scss";
 import "taro-ui-vue/dist/style/components/button.scss"
 import "taro-ui-vue/dist/style/components/noticebar.scss";
 import './index.less' 
+
+import cardimg from '../../images/colorful/card.png'
+import foundimg from '../../images/colorful/found.png'
+import lostimg from '../../images/colorful/lost.png'
+import moneyimg from '../../images/colorful/money.png'
 export default {
   components: {
     AtButton,AtGrid,AtTag,AtNoticebar
   },
   data () {
     return {
+      posts:[],
       quickNavIcon : [
         {
-          image:
-            'https://img12.360buyimg.com/jdphoto/s72x72_jfs/t6160/14/2008729947/2754/7d512a86/595c3aeeNa89ddf71.png',
+          image: cardimg,
           value: '找校园卡',
         },
         {
-          image:
-            'https://img20.360buyimg.com/jdphoto/s72x72_jfs/t15151/308/1012305375/2300/536ee6ef/5a411466N040a074b.png',
+          image: lostimg,
           value: '寻物启示',
         },
         {
-          image:
-            'https://img10.360buyimg.com/jdphoto/s72x72_jfs/t5872/209/5240187906/2872/8fa98cd/595c3b2aN4155b931.png',
+          image: foundimg,
           value: '失物招领',
         },
         {
-          image:
-            'https://img12.360buyimg.com/jdphoto/s72x72_jfs/t10660/330/203667368/1672/801735d7/59c85643N31e68303.png',
+          image: moneyimg,
           value: '贵重物品',
         },
       ],
@@ -111,6 +118,12 @@ export default {
       ]
     }
   },
+  mounted() {
+    findItApi.recentPostList().then((posts) => {
+      console.log(posts)
+      this.posts = posts
+    })
+  },
   methods: {
     quickRoute(value, index) {
       Taro.showModal({
@@ -119,9 +132,15 @@ export default {
         showCancel: false,
       })
     },
-    onGotoMore() {
-      console.log("hello")
-    }
+    onGotoMore(e) {
+      console.log(e)
+      Taro.showModal({
+        title: e.title,
+        content: e.content,
+        showCancel: false
+      })
+    },
+    
   },
     }
 </script>
