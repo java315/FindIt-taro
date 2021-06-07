@@ -72,7 +72,14 @@ const findItApi = {
 
     // Data Api
     findItData: function() {
-        
+        return request({
+            url: api.DATA_GET,
+            method:'GET',
+            header: {
+                'content-type': 'application/json' 
+            },
+            oauth2: false
+        })
     },
 
     // Image Api

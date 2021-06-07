@@ -12,3 +12,5 @@ export const POST_LIST_GET = '/posts'
 export const POST_GET = '/posts/'
 
 export const IMAGE_UPLOAD = '/images'
+
+export const DATA_GET = '/data'

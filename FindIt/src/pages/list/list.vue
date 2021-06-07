@@ -50,20 +50,20 @@ import "taro-ui-vue/dist/style/components/button.scss";
 import "taro-ui-vue/dist/style/components/drawer.scss";
 import "taro-ui-vue/dist/style/components/nav-bar.scss";
 
-function buildData(offset = 0) {
-  return Array(20)
-    .fill(0)
-    .map((_, i) => {
-      return {
-        thumb:
-          "https://cbu01.alicdn.com/img/ibank/2016/597/960/3694069795_1624996386.jpg",
-        createdTime: "2019-09-21 23:23:21",
-        method: "QQ123445",
-        tags: [i % 2 == 0 ? "lost" : "found", "手机"],
-        description: "社保卡",
-      };
-    });
-}
+// function buildData(offset = 0) {
+//   return Array(20)
+//     .fill(0)
+//     .map((_, i) => {
+//       return {
+//         thumb:
+//           "https://cbu01.alicdn.com/img/ibank/2016/597/960/3694069795_1624996386.jpg",
+//         createdTime: "2019-09-21 23:23:21",
+//         method: "QQ123445",
+//         tags: [i % 2 == 0 ? "lost" : "found", "手机"],
+//         description: "社保卡",
+//       };
+//     });
+// }
 
 
 
@@ -78,15 +78,24 @@ export default {
   },
   data() {
     return {
-      items: buildData(0),
+      items: [],
       loading: false,
       drawerShow: false,
       itemHeight: 150,
       searchTarget: "",
-      categories: ["一般", "贵重物品", "校园卡"],
-      currentCategory: "一般",
+      categories: ["所有","失物招领","寻物启事","贵重物品", "校园卡"],
+      currentCategory: "所有",
       page:0,
     };
+  },
+  created() {
+    var tag = getGlobalData("listTag")
+    if (tag === "") {
+      // do nothing
+    }
+    else {
+      this.currentCategory = tag
+    }
   },
   mounted() {
     findItApi.itemList(this.page).then((data) => {

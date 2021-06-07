@@ -65,6 +65,7 @@ import cardimg from '../../images/colorful/card.png'
 import foundimg from '../../images/colorful/found.png'
 import lostimg from '../../images/colorful/lost.png'
 import moneyimg from '../../images/colorful/money.png'
+import { setGlobalData } from '../../utils/global';
 export default {
   components: {
     AtButton,AtGrid,AtTag,AtNoticebar
@@ -79,7 +80,7 @@ export default {
         },
         {
           image: lostimg,
-          value: '寻物启示',
+          value: '寻物启事',
         },
         {
           image: foundimg,
@@ -123,14 +124,17 @@ export default {
       console.log(posts)
       this.posts = posts
     })
+    findItApi.findItData().then((data) => {
+      console.log(data)
+      // set data
+    })
   },
   methods: {
     quickRoute(value, index) {
-      Taro.showModal({
-        title: '提示',
-        content: `Value: ${JSON.stringify(value)}, Index: ${index}`,
-        showCancel: false,
-      })
+      setGlobalData("listTag",value.value)
+      Taro.switchTab({
+         url: '/pages/list/list',
+      });
     },
     onGotoMore(e) {
       console.log(e)

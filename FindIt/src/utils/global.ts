@@ -1,5 +1,6 @@
 const globalData = {
-    state:"unchecked"
+    state:"unchecked",
+    listTag:"" // index 跳转到 list页面传入的参数
 }
 
 export function setGlobalData (key, val) {
