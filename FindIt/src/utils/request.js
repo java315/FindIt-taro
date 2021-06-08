@@ -13,23 +13,32 @@ const weappRequest = {
     oauth2 = false
   }) {
     return new Promise(async function(resolve, reject) {
-      const stuId = Taro.getStorageSync("stuId");
-      if (!stuId) { // 未登录
-        await weappRequest.signin();
-        const result = await weappRequest.request({
-          url: apiPrefix+url,
-          method,
-          data,
-          header,
-          oauth2
-        });
-        return resolve(result);
-      }
+      
       // 处理请求头
       if (oauth2) {
+        const stuId = Taro.getStorageSync("stuId");
+        if (stuId == null || stuId == "") {
+          Taro.showModal({
+            title: 'NJU验证',
+            content: '该功能需要验证NJU身份，是否前往验证？',
+            success: function (res) {
+              if (res.confirm) {
+                Taro.navigateTo({
+                   url: '/pages/user/login/login',
+                });
+              } else if (res.cancel) {
+                // do nothing
+                console.log("cancel")
+              }
+            }
+          });
+          console.log("cancel")
+          return reject({
+            message:"等待身份验证"
+          })
+          console.log("cancel")
+        }
         const token = Taro.getStorageSync("token");
-        // header["Authorization"] = `Bearer ${token}`;
-        // console.log(token)
         header["Authorization"] = token
       }
 

@@ -80,6 +80,7 @@ export default {
     return {
       items: [],
       loading: false,
+      initLoading: true,
       drawerShow: false,
       itemHeight: 150,
       searchTarget: "",
@@ -98,14 +99,38 @@ export default {
     }
   },
   mounted() {
-    findItApi.itemList(this.page).then((data) => {
-      data.forEach(e => {
-        e.thumb = e.photos[0] ? e.photos[0].url : ''
-        e.tags = e.tags.sort((a,b) => a.priority - b.priority).map(e => e.name)
+    const state = getGlobalData("state")
+    console.log(state)
+    if (state == "checked") {
+      findItApi.itemList(this.page).then((data) => {
+        data.forEach(e => {
+          e.thumb = e.photos[0] ? e.photos[0].url : ''
+          e.tags = e.tags.sort((a,b) => a.priority - b.priority).map(e => e.name)
+        })
+        this.items = data
+        this.initLoading = false
+      }).catch(err => {
+        console.log(err.message)
+        this.initLoading = false
       })
-      this.items = data
-    })
+    }
     
+  },
+  onShow() {
+    if (this.items.length == 0) {
+      this.initLoading = true
+      findItApi.itemList(this.page).then((data) => {
+        data.forEach(e => {
+          e.thumb = e.photos[0] ? e.photos[0].url : ''
+          e.tags = e.tags.sort((a,b) => a.priority - b.priority).map(e => e.name)
+        })
+        this.items = data
+        this.initLoading = false
+      }).catch(err => {
+        console.log(err.message)
+        this.initLoading = false
+      })
+    }
   },
   computed: {
     dataLen() {
@@ -124,6 +149,7 @@ export default {
 
     // methods about list
     listReachBottom() {
+      console.log("bottom")
       this.loading = true;
       let page = this.page + 1
       findItApi.itemList(page).then((data) => {
@@ -144,6 +170,7 @@ export default {
       if (
         // 避免重复加载数据
         !this.loading &&
+        !this.initLoading &&
         // 只有向前滚动才触发
         scrollDirection === "forward" &&
         // 5 = (列表高度 / 单项列表高度)

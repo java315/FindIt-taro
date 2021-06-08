@@ -61,7 +61,7 @@ export default {
   },
   mounted() {
     let stuId = Taro.getStorageSync('stuId')
-    if (stuId == null) {
+    if (stuId == null || stuId == "") {
       this.state = '未认证'
       this.isNJUer = false
     }
@@ -93,7 +93,7 @@ export default {
     jumpToLogin() {
       if (this.isNJUer == false) {
         Taro.navigateTo({
-          url: "/pages/auth/login/login",
+          url: "/pages/user/login/login",
         });
       }
       
