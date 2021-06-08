@@ -90,15 +90,16 @@ export default {
         })
         this.items = data
         this.initLoading = false
+        findItApi.tagList().then(tags => {
+          console.log(tags)
+        })
       }).catch(err => {
         console.log(err.message)
         this.initLoading = false
       })
     }
 
-    findItApi.tagList().then(tags => {
-      console.log(tags)
-    })
+    
     
   },
   onShow() {

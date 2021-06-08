@@ -126,7 +126,7 @@ export default {
     })
     findItApi.findItData().then((data) => {
       console.log(data)
-      // set data
+      this.todayData = data
     })
   },
   methods: {

@@ -186,7 +186,7 @@ export default {
           method,
           photos
         }).then(() => {
-          
+          this.backToList()
         })
       }
 
