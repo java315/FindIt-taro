@@ -1,7 +1,14 @@
 import Taro from "@tarojs/taro";
-import { resolve } from "node:path";
+import { appApiPrefix, h5ApiPrefix } from "../configs/config";
 import * as api from "../configs/api";
 import request from "./request";
+
+let apiPrefix;
+if (process.env.TARO_ENV === "weapp") {
+    apiPrefix = appApiPrefix
+} else {
+    apiPrefix = h5ApiPrefix
+}
 
 const findItApi = {
     // Item api
@@ -28,8 +35,27 @@ const findItApi = {
             oauth2: true
         })
     },
-    itemCreate:function() {
+    postItem: function({description="",method="",tags=[],photos=[]}) {
         
+        var photo_paths = photos.map(p => p.url)
+        return this.uploadImages(photo_paths).then((res) => {
+            return request({
+                url: api.ITEM_CREATE,
+                method:'POST',
+                header:{
+                    'content-type': 'application/json' 
+                },
+                data: {
+                    description,
+                    method,
+                    tags,
+                    photos:res
+    
+                },
+                oauth2: true
+            })
+        })
+
     },
     deleteItem:function() {
         return request({
@@ -83,8 +109,56 @@ const findItApi = {
     },
 
     // Image Api
-    uploadImage: function() {
-        // 这里要调用Taro.uploadFile()
+    uploadImages: function(photos) {
+        return new Promise(async function(resolve, reject) {
+            console.log("upload images")
+            await findItApi.uploadOneByOne(photos)
+            return resolve(photos)
+        })
+    },
+    uploadOneByOne: function(paths=[], count=0, successUp=0, failUp=0) {
+        
+        Taro.showLoading({
+            title: '正在上传第'+count+"张图片"
+        });
+        Taro.uploadFile({
+            url:  apiPrefix + api.IMAGE_UPLOAD,
+            filePath: paths[count],
+            method: 'POST',
+            header: {
+                "Content-Type": "multipart/form-data;charset=utf-8",
+            },
+            name: 'file',
+            success: (uploadFileRes) => {
+                successUp++
+                console.log(uploadFileRes.data); // 这里应该返回了一个图片的url，需要记录下来
+                paths[count] = uploadFileRes.data
+            },
+            fail: () => {
+                failUp++
+            },
+            complete: () => {
+                count++
+                // 所有图片上传完成
+                if(count >= paths.length) {
+                    if (successUp == count) {
+                        Taro.showToast({
+                            title: '上传成功',
+                            icon: 'success',
+                            duration: 2000
+                        });
+                    }
+                    else {
+                        console.log('上传成功' + successUp + ',' + '失败' + failUp)
+                    }
+                }
+                else {
+                    // 递归调用，上传下一张
+                    findItApi.uploadOneByOne(paths, count, successUp, failUp)
+                }
+            }
+        });
+        
     }
 
 }

@@ -114,6 +114,10 @@ export default {
         this.initLoading = false
       })
     }
+
+    findItApi.tagList().then(tags => {
+      console.log(tags)
+    })
     
   },
   onShow() {

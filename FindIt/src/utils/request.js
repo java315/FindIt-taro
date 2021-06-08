@@ -52,11 +52,7 @@ const weappRequest = {
       await Taro.hideLoading();
 
       if (result.statusCode === 401) {
-        // 未认证，重新请求 token
-        await weappRequest.getToken()
-        const result = await weappRequest.request({ url, method, data, header, oauth2 })
-        resolve(result)
-      } else if (result.statusCode == 500 && request_count++ <= 3) {
+        // token无效或过期，重新请求 token
         await weappRequest.getToken()
         const result = await weappRequest.request({ url, method, data, header, oauth2 })
         resolve(result)
@@ -87,7 +83,6 @@ const weappRequest = {
         },
         method: 'GET',
     })
-    console.log(result.data.Authorization)
     Taro.setStorageSync('token', result.data.Authorization)
   },
   getToken: async function() {

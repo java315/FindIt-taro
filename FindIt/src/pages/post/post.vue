@@ -111,6 +111,7 @@ import {
   AtButton,
 } from "taro-ui-vue";
 import Taro from "@tarojs/taro";
+import findItApi from "../../utils/finditapi"
 import "taro-ui-vue/dist/style/components/message.scss";
 import "taro-ui-vue/dist/style/components/textarea.scss";
 import "taro-ui-vue/dist/style/components/icon.scss";
@@ -135,11 +136,6 @@ export default {
       description: "",
       selectedTagIndex: 0,
       method: "",
-      tag: "lost",
-      options: [
-        { label: "寻物启事", value: "lost" },
-        { label: "失物招领", value: "found" },
-      ],
       imgs: [],
       imgPickerLength: 3,
       imgPickerCnt: 9,
@@ -148,14 +144,9 @@ export default {
     };
   },
   mounted() {
-    let base = getGlobalData("BaseUrl");
-    // get tags
-    // Taro.request({
-    //   url: base+"tags",
-    //   success: (res) => {
-    //     console.log(res.data);
-    //   }
-    // });
+    findItApi.tagList().then((tags) => {
+      console.log(tags);
+    })
   },
   methods: {
     onChange(stateName, value) {
@@ -175,39 +166,30 @@ export default {
         url: "/pages/list/list",
       });
     },
+    
     onSubmit() {
-      if (this.description.length == 0) {
+      if (this.description.length < 5) {
         Taro.showToast({
-          title: "描述不能为空!",
-          // image: '\src\images\icons\alart.png',
-          icon: "none",
-          duration: 1000,
-        });
-      } else {
-        let base = getGlobalData("BaseUrl");
-        for (var i = 0; i < this.imgs.length; i++) {
-          Taro.showLoading({
-            title: "上传第" + i + "张照片",
-          });
-          Taro.uploadFile({
-            url: base + "images",
-            filePath: this.imgs[i].url,
-            method: "POST",
-            name: "file",
-            header: {
-              "Content-Type": "multipart/form-data;charset=utf-8",
-            },
-            success: function (res) {
-              console.log(res.data);
-            },
-          });
-        }
-        //TODO: 将数据打包提交到服务器
-        Taro.hideLoading();
-        Taro.switchTab({
-          url: "/pages/list/list",
+          title: '描述请再详细些',
+          icon: 'error',
+          duration: 1000
         });
       }
+      else {
+        let description = this.description
+        let method = this.method
+        let photos = this.imgs
+        let selectedTag = this.tags[this.selectedTagIndex]
+        findItApi.postItem({
+          tags:[selectedTag],
+          description,
+          method,
+          photos
+        }).then(() => {
+          
+        })
+      }
+
     },
 
     onFail(mes) {
