@@ -75,6 +75,16 @@ const findItApi = {
             oauth2:true
         })
     },
+    myItems: function(page) {
+        return request({
+            url: api.ITEM_LIST_GET,
+            method:'GET',
+            data: {
+                page,
+                createdBy:""
+            }
+        })
+    },
     tagList: function() {
         return request({
             url: api.TAG_LIST_GET,
