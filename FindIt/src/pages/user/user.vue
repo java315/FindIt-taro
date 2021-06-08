@@ -59,7 +59,7 @@ export default {
       isNJUer:false
     };
   },
-  mounted() {
+  onShow() {
     let stuId = Taro.getStorageSync('stuId')
     if (stuId == null || stuId == "") {
       this.state = '未认证'

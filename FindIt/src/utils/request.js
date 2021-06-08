@@ -36,7 +36,6 @@ const weappRequest = {
           return reject({
             message:"等待身份验证"
           })
-          console.log("cancel")
         }
         const token = Taro.getStorageSync("token");
         header["Authorization"] = token
