@@ -1,6 +1,7 @@
 <template>
   <view>
     <AtMessage/>
+    
     <AtNavBar
       :onClickRgIconSt="jumpToPost"
       :onClickLeftIcon="handleClick"
@@ -17,7 +18,15 @@
       :onChange="onChange.bind(this, 'searchTarget')"
       :onActionClick="onSearch"
     />
-
+    <view class="fab">
+      <AtFab :onClick="top">
+        <image :src="top_img" class="at-fab__icon"></image>
+        <!-- <view class='at-fab__icon'>
+          
+        </view> -->
+      </AtFab>
+    </view>
+    
     <my-list :itemHeight="itemHeight" :items="items" @scroll="onScroll" />
 
     <AtDrawer
@@ -27,6 +36,8 @@
       :onClose="onDrawerClose"
       :onItemClick="onItemClick"
     />
+
+    
   </view>
 </template>
 
@@ -36,10 +47,13 @@ import {
   AtNavBar,
   AtSearchBar,
   AtDrawer,
-  AtMessage
+  AtMessage,
+  AtFab 
 } from "taro-ui-vue";
 import {setGlobalData,getGlobalData} from '../../utils/global'
+import topimg from '../../images/icons/top.png'
 import findItApi from "../../utils/finditapi"
+import {timestampToDate} from "../../utils/time"
 import myList from "../../components/myList/myList"
 import "taro-ui-vue/dist/style/components/message.scss";
 import "taro-ui-vue/dist/style/components/search-bar.scss";
@@ -47,7 +61,8 @@ import "taro-ui-vue/dist/style/components/icon.scss";
 import "taro-ui-vue/dist/style/components/button.scss";
 import "taro-ui-vue/dist/style/components/drawer.scss";
 import "taro-ui-vue/dist/style/components/nav-bar.scss";
-
+import "taro-ui-vue/dist/style/components/fab.scss";
+import "./list.less"
 export default {
   components: {
     AtSearchBar,
@@ -55,6 +70,7 @@ export default {
     AtDrawer,
     AtNavBar,
     myList,
+    AtFab
     
   },
   data() {
@@ -68,6 +84,8 @@ export default {
       categories: ["所有","失物招领","寻物启事","贵重物品", "校园卡"],
       currentCategory: "所有",
       page:0,
+      top_img:topimg,
+      defaultUrl:'https://git.nju.edu.cn/youngstudent2/mypics/uploads/9d4c4031601ce3102e1e409af9a300f3/fake.jpg'
     };
   },
   created() {
@@ -84,10 +102,7 @@ export default {
     console.log(state)
     if (state == "checked") {
       findItApi.itemList(this.page).then((data) => {
-        data.forEach(e => {
-          e.thumb = e.photos[0] ? e.photos[0].url : ''
-          e.tags = e.tags.sort((a,b) => a.priority - b.priority).map(e => e.name)
-        })
+        this.dataDo(data)
         this.items = data
         this.initLoading = false
         findItApi.tagList().then(tags => {
@@ -106,10 +121,7 @@ export default {
     if (this.items.length == 0) {
       this.initLoading = true
       findItApi.itemList(this.page).then((data) => {
-        data.forEach(e => {
-          e.thumb = e.photos[0] ? e.photos[0].url : ''
-          e.tags = e.tags.sort((a,b) => a.priority - b.priority).map(e => e.name)
-        })
+        this.dataDo(data)
         this.items = data
         this.initLoading = false
       }).catch(err => {
@@ -144,10 +156,7 @@ export default {
         if (data.length > 0) {
           this.page = page
         }
-        data.forEach(e => {
-          e.thumb = e.photos[0] ? e.photos[0].url : ''
-          e.tags = e.tags.sort((a,b) => a.priority - b.priority).map(e => e.name)
-        })
+        this.dataDo(data)
         let items = this.items 
         this.items = items.concat(data)
         this.loading = false
@@ -167,6 +176,15 @@ export default {
       ) {
         this.listReachBottom();
       }
+    },
+
+    dataDo(data) {
+      data.forEach(e => {
+          e.thumb = e.photos[0] ? e.photos[0].url : this.defaultUrl
+          e.tags = e.tags.sort((a,b) => a.priority - b.priority).map(tag => tag.name)
+          e.createdTime = timestampToDate(e.createdTime)
+
+        })
     },
 
     //
@@ -190,7 +208,26 @@ export default {
     onItemClick(index) {
       this.currentCategory = this.categories[index];
     },
+    // 其实是刷新
+    top() {
+      
+      let page = 0
+      this.loading = true
+      this.items = []
+      findItApi.itemList(page).then((data) => {
+        if (data.length > 0) {
+          this.page = page
+        }
+        this.dataDo(data)
+        this.items = data
 
+        this.loading = false
+        Taro.pageScrollTo({
+          scrollTop: 0,
+          duration: 300
+        });
+      })
+    }
     
 
   },

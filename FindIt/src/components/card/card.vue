@@ -10,7 +10,7 @@
             </view>
             <view class="item-detail at-col at-col-8"> 
                 <AtTag 
-                    v-if="data[index].tags[0]=='lost'" 
+                    v-if="data[index].tags[0]=='寻物启事'" 
                     class="lost-tag" 
                     size="small"
                     active
