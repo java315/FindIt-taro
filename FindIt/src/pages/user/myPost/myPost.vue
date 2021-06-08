@@ -19,7 +19,7 @@ import {
 } from "taro-ui-vue";
 import {setGlobalData,getGlobalData} from '../../utils/global'
 import findItApi from "../../../utils/finditapi"
-import myList from "../../../components/myList/myList";
+import myList from "../../../components/myList/myList2";
 import "taro-ui-vue/dist/style/components/message.scss";
 import "taro-ui-vue/dist/style/components/icon.scss";
 import "taro-ui-vue/dist/style/components/drawer.scss";
