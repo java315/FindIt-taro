@@ -118,7 +118,7 @@ export default {
     
   },
   onShow() {
-    if (this.items.length == 0) {
+    
       this.initLoading = true
       findItApi.itemList(this.page).then((data) => {
         this.dataDo(data)
@@ -128,7 +128,7 @@ export default {
         console.log(err.message)
         this.initLoading = false
       })
-    }
+    
   },
   computed: {
     dataLen() {
