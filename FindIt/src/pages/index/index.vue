@@ -119,11 +119,14 @@ export default {
       ]
     }
   },
-  mounted() {
-    findItApi.recentPostList().then((posts) => {
+  async mounted() {
+    await findItApi.recentPostList().then((posts) => {
       console.log(posts)
       this.posts = posts
     })
+    
+  },
+  onShow() {
     findItApi.findItData().then((data) => {
       console.log(data)
       this.todayData = data
