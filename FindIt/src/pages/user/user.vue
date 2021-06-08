@@ -81,9 +81,18 @@ export default {
       // });
     },
     jumpToMyPost:function() {
-      Taro.navigateTo({
+      if (this.isNJUer) {
+        Taro.navigateTo({
         url: "/pages/user/myPost/myPost",
       });
+      }
+      else {
+        Taro.showToast({
+          title: '请先完成认证',
+          duration: 1000
+        });
+      }
+      
     },
     jumpToAbout:function() {
       Taro.navigateTo({

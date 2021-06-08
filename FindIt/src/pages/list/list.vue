@@ -14,8 +14,8 @@
     <AtSearchBar
       showActionButton
       :value="searchTarget"
-      :onChange="onChange.bind(this, 'value')"
-      :onActionClick="onActionClick"
+      :onChange="onChange.bind(this, 'searchTarget')"
+      :onActionClick="onSearch"
     />
 
     <my-list :itemHeight="itemHeight" :items="items" @scroll="onScroll" />
@@ -34,8 +34,6 @@
 import Taro from "@tarojs/taro";
 import {
   AtNavBar,
-  AtList,
-  AtListItem,
   AtSearchBar,
   AtDrawer,
   AtMessage
@@ -49,23 +47,6 @@ import "taro-ui-vue/dist/style/components/icon.scss";
 import "taro-ui-vue/dist/style/components/button.scss";
 import "taro-ui-vue/dist/style/components/drawer.scss";
 import "taro-ui-vue/dist/style/components/nav-bar.scss";
-
-// function buildData(offset = 0) {
-//   return Array(20)
-//     .fill(0)
-//     .map((_, i) => {
-//       return {
-//         thumb:
-//           "https://cbu01.alicdn.com/img/ibank/2016/597/960/3694069795_1624996386.jpg",
-//         createdTime: "2019-09-21 23:23:21",
-//         method: "QQ123445",
-//         tags: [i % 2 == 0 ? "lost" : "found", "手机"],
-//         description: "社保卡",
-//       };
-//     });
-// }
-
-
 
 export default {
   components: {
@@ -145,10 +126,12 @@ export default {
     onChange(stateName, value) {
       this[stateName] = value;
     },
-    onActionClick() {
-      console.log("click search button");
-      //console.log(this.dataLen);
-      console.log(this.items);
+    onSearch() {
+      let page = 0
+      let searchTarget = this.searchTarget
+      findItApi.searchItem(page,searchTarget).then(data => {
+        this.items = data
+      })
     },
 
     // methods about list

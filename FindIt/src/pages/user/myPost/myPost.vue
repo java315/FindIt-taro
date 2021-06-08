@@ -1,58 +1,43 @@
 <template>
   <view>
+    <AtMessage/>
     <AtNavBar
       color="#000"
       title="我的发布"
     >
     </AtNavBar>
 
-    <my-list :itemHeight="itemHeight" :items="items" :height="640" @scroll="onScroll" />
-
+    <my-list v-if="dataLen > 0" :itemHeight="itemHeight" :items="items" @scroll="onScroll" />
+    <view v-else style="text-align:center;font-size:50px;height:600px;line-height:200px">这里啥也没有</view>
   </view>
 </template>
 
 <script>
 import Taro from "@tarojs/taro";
 import {
-  AtNavBar,
-  AtDrawer,
+  AtNavBar,AtMessage
 } from "taro-ui-vue";
+import {setGlobalData,getGlobalData} from '../../utils/global'
+import findItApi from "../../../utils/finditapi"
 import myList from "../../../components/myList/myList";
+import "taro-ui-vue/dist/style/components/message.scss";
 import "taro-ui-vue/dist/style/components/icon.scss";
 import "taro-ui-vue/dist/style/components/drawer.scss";
 import "taro-ui-vue/dist/style/components/nav-bar.scss";
 import "./myPost.less";
-function buildData(offset = 0) {
-  return Array(20)
-    .fill(0)
-    .map((_, i) => {
-      return {
-        thumb:
-          "https://cbu01.alicdn.com/img/ibank/2016/597/960/3694069795_1624996386.jpg",
-        postTime: "2019-09-21 23:23:21",
-        method: "QQ123445",
-        tags: [i % 2 == 0 ? "lost" : "found", "手机"],
-        text: "社保卡",
-      };
-    });
-}
 
 export default {
   components: {
-    AtDrawer,
+    AtMessage,
     AtNavBar,
     myList,
   },
   data() {
     return {
-      items: buildData(0),
+      items: [],
       loading: false,
-      drawerShow: false,
       itemHeight: 150,
-      searchTarget: "",
-      categories: ["一般", "贵重物品", "校园卡"],
-      currentCategory: "一般",
-      // Card,
+      page:0,
     };
   },
   computed: {
@@ -60,28 +45,36 @@ export default {
       return this.items.length;
     },
   },
+  mounted() {
+      console.log("mounted")
+      findItApi.itemList(this.page).then((data) => {
+        data.forEach(e => {
+          e.thumb = e.photos[0] ? e.photos[0].url : ''
+          e.tags = e.tags.sort((a,b) => a.priority - b.priority).map(e => e.name)
+        })
+        this.items = data
+      }).catch(err => {
+        console.log(err.message)
+      })
+    },
   methods: {
-    onChange(stateName, value) {
-      this[stateName] = value;
-    },
-    onActionClick() {
-      console.log("click search button");
-      //console.log(this.dataLen);
-      console.log(this.items);
-    },
 
     // methods about list
     listReachBottom() {
-      Taro.showLoading({
-        title: "加载中",
-      });
       this.loading = true;
-      setTimeout(() => {
-        let data = this.items;
-        this.items = data.concat(buildData(data.length));
-        this.loading = false;
-        Taro.hideLoading();
-      }, 1000);
+      let page = this.page + 1
+      findItApi.itemList(page).then((data) => {
+        if (data.length > 0) {
+          this.page = page
+        }
+        data.forEach(e => {
+          e.thumb = e.photos[0] ? e.photos[0].url : ''
+          e.tags = e.tags.sort((a,b) => a.priority - b.priority).map(e => e.name)
+        })
+        let items = this.items 
+        this.items = items.concat(data)
+        this.loading = false
+      })
     },
 
     onScroll({ scrollDirection, scrollOffset }) {
@@ -96,19 +89,6 @@ export default {
       ) {
         this.listReachBottom();
       }
-    },
-
-    //
-    handleClick() {
-      this.drawerShow = true;
-    },
-
-    // drawer
-    onDrawerClose() {
-      this.drawerShow = false;
-    },
-    onItemClick(index) {
-      this.currentCategory = this.categories[index];
     },
   },
 };
