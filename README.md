@@ -1,5 +1,9 @@
 # FindIt-taro
 
+## 仓库说明
+
+后端见[此处](https://github.com/youngstudent2/Findit-backend)
+
 ## 如何运行
 
 [参考](https://taro-docs.jd.com/taro/docs/GETTING-STARTED/)
